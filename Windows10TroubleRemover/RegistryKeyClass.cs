@@ -149,6 +149,12 @@ namespace Windows10TroubleRemover
             return true;
         }
 
+        /// <summary>
+        /// Loops through each part of the path to decide which is the last existing path, and add the missing paths/subkeys
+        /// </summary>
+        /// <param name="shouldSubkey">Last ShouldKey which SHOULD exists, and lets the loop keep looping until this key is created</param>
+        /// <param name="hkey">HKey type option</param>
+        /// <returns>Returns Tuple with the lastValidPath and a List of all missing subkeys</returns>
         private (string, List<string>) GetLastAvailableSubkeyPath(string shouldSubkey, ERegistryHkey hkey)
         {
             List<String> missingSubKeys = new List<string>();
@@ -180,6 +186,12 @@ namespace Windows10TroubleRemover
             return (lastValidPath, missingSubKeys);
         }
 
+
+        /// <summary>
+        /// Decides how to Initialize the new registryKey with the given RegistryKeyoption like CurrentUser, LocalMachine..
+        /// </summary>
+        /// <param name="registryPath">Current registrypath which should be used</param>
+        /// <param name="hkey">Enum of RegistryKeyOption like LocalMachine, CurrentUser etc.</param>
         private void SetHKeyFormat(string registryPath, ERegistryHkey hkey)
         {
             switch (hkey)
@@ -194,6 +206,12 @@ namespace Windows10TroubleRemover
             }
         }
 
+
+        /// <summary>
+        /// Loops through each missing subkey which is given from the tuple and creates each one and tests if the created path is then available
+        /// </summary>
+        /// <param name="registryPath">Registrypath which doesnt work at all which should work at the end of this method</param>
+        /// <param name="hkey">Hkey option</param>
         private void CreateMissingSubKey(string registryPath, ERegistryHkey hkey)
         {
             var result = this.GetLastAvailableSubkeyPath(registryPath, hkey);

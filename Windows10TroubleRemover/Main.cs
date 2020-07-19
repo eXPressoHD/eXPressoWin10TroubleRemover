@@ -27,17 +27,21 @@ namespace Windows10TroubleRemover
         /// <param name="e"></param>
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            CheckEnabledOption();
+            CheckEnabledOption(); //Check all registry values, and if a Path or Subkey is missing create them (if user agree)
         }
 
 
+        /// <summary>
+        /// Cycle through each pair in dictionary which define all settings, if subkey or regpath is missing ask to create them
+        /// Also decide if a registry option is enabled or not, and adjusts the visible controls
+        /// </summary>
         private void CheckEnabledOption()
         {
             foreach (KeyValuePair<string, string> vp in Tools.CONFIGSETTINGS)
             {
                 RegistryKeyClass rk = null;
 
-                if (vp.Key == Tools.NOSTARTUPDELAY || vp.Key == Tools.NOBINGSEARCH )
+                if (vp.Key == Tools.NOSTARTUPDELAY || vp.Key == Tools.NOBINGSEARCH) //These both are actually CURRENTUSER settings
                 {
                     rk = RegistryFactory.CreateStartupCheck(vp.Value, vp.Key, ERegistryHkey.CURRENTUSER);
                 }
@@ -142,12 +146,19 @@ namespace Windows10TroubleRemover
                 }
                 catch (System.ComponentModel.Win32Exception ex)
                 {
+                    MessageBox.Show("OneDrive could not be uninstallled, is it already uninstalled?");
                 }
             }
         }
 
         #endregion
 
+        /// <summary>
+        /// Simple method to get all child control items on the form
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public IEnumerable<Control> GetAll(Control control, Type type)
         {
             var controls = control.Controls.Cast<Control>();
@@ -157,6 +168,11 @@ namespace Windows10TroubleRemover
                                       .Where(c => c.GetType() == type);
         }
 
+        /// <summary>
+        /// Get Checkbox with the parsed name
+        /// </summary>
+        /// <param name="name">Name of Checkbox control</param>
+        /// <returns>Checkbox control, else null</returns>
         private Control FindCheckBoxWithGivenName(string name)
         {
             var ckbx = GetAll(this, typeof(CheckBox));
@@ -172,7 +188,5 @@ namespace Windows10TroubleRemover
             if (b) { return EActivationParameter.On; }
             else { return EActivationParameter.Off; }
         }
-
-
     }
 }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Windows10TroubleRemover.Enums
 {
+    /// <summary>
+    /// Different Registry sections
+    /// </summary>
     public enum ERegistryHkey
     {
         CURRENTUSER,
