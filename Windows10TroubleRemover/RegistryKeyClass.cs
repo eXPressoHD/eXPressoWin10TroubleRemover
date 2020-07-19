@@ -25,7 +25,8 @@ namespace Windows10TroubleRemover
 
         public RegistryKeyClass(string registryPath, string allowText, ERegistryHkey hkey)
         {
-            string configDefaultState = ConfigurationManager.AppSettings["DEFAULTCREATIONSTATE"].ToString();
+            //Let user decide if the new created setting should be activated or not
+            string configDefaultState = ConfigurationManager.AppSettings["DEFAULTCREATIONSTATE"].ToString(); 
             int state = configDefaultState == "1" ? 1 : 0;
 
             bool functionThrough = false;
