@@ -53,12 +53,12 @@ namespace Windows10TroubleRemover
                 }
                 catch (NullReferenceException ex)
                 {
-                    CreateMissingItems(registryPath, allowText, state, hkey, skipEnabled, ref functionThrough);
+                    CreateMissingItems(registryPath, allowText, state, hkey, ref skipEnabled, ref functionThrough);
                 }
             }
         }
 
-        private void CreateMissingItems(string registryPath, string allowText, int state, ERegistryHkey hkey, bool skipEnabled, ref bool functionThrough)
+        private void CreateMissingItems(string registryPath, string allowText, int state, ERegistryHkey hkey, ref bool skipEnabled, ref bool functionThrough)
         {
             if (skipEnabled)
             {
