@@ -13,6 +13,7 @@ namespace Windows10TroubleRemover
 {
     public class RegistryKeyClass
     {
+        #region Fields and Properties
         private Microsoft.Win32.RegistryKey _registryKey;
 
         public Microsoft.Win32.RegistryKey RegistryKey
@@ -21,12 +22,58 @@ namespace Windows10TroubleRemover
             set { _registryKey = value; }
         }
 
+        public bool RegisterKeyAvailable => (this._registryKey == null) ? false : true;
+
         public bool KeyOff { get; private set; }
+
+        #endregion
+
+        #region Constructors
+        public RegistryKeyClass(string registryPath, EActivationParameter enableFunction, string allowText, RegistryValueKind valueKind, ERegistryHkey hkey)
+        {
+            SetHKeyFormat(registryPath, hkey);
+
+            if (!RegisterKeyAvailable)
+            {
+                CreateMissingSubKey(registryPath, hkey);
+            }
+
+            if (RegisterKeyAvailable)
+            {
+                object registryKeyValue = this.RegistryKey.GetValue(allowText);
+
+                if ((int?)registryKeyValue == null)
+                {
+                    this.SetRKValue(allowText, enableFunction, valueKind);
+                }
+                else
+                {
+                    switch (enableFunction)
+                    {
+                        case EActivationParameter.Off:
+                            this.SetRKValue(allowText, (int)EActivationParameter.Off);
+                            break;
+
+                        case EActivationParameter.On:
+                            this.SetRKValue(allowText, (int)EActivationParameter.On);
+                            break;
+
+                        case EActivationParameter.AdditionalSetting1:
+                            this.SetRKValue(allowText, (int)EActivationParameter.AdditionalSetting1);
+                            break;
+
+                        case EActivationParameter.AdditionalSetting2:
+                            this.SetRKValue(allowText, (int)EActivationParameter.AdditionalSetting2);
+                            break;
+                    }
+                }
+            }
+        }
 
         public RegistryKeyClass(string registryPath, string allowText, ERegistryHkey hkey)
         {
             //Let user decide if the new created setting should be activated or not
-            string configDefaultState = ConfigurationManager.AppSettings["DEFAULTCREATIONSTATE"].ToString(); 
+            string configDefaultState = ConfigurationManager.AppSettings["DEFAULTCREATIONSTATE"].ToString();
             int state = configDefaultState == "1" ? 1 : 0;
             bool skipEnabled = false;
 
@@ -58,6 +105,9 @@ namespace Windows10TroubleRemover
             }
         }
 
+        #endregion
+
+        #region Private Methods
         private void CreateMissingItems(string registryPath, string allowText, int state, ERegistryHkey hkey, ref bool skipEnabled, ref bool functionThrough)
         {
             if (skipEnabled)
@@ -92,57 +142,12 @@ namespace Windows10TroubleRemover
                         CreateMissingSubKey(registryPath, hkey);
                         this.SetRKValue(allowText, state, RegistryValueKind.DWord);
                     }
-                } else
+                }
+                else
                 {
                     functionThrough = true;
                 }
             }
-        }
-
-        public RegistryKeyClass(string registryPath, EActivationParameter enableFunction, string allowText, RegistryValueKind valueKind, ERegistryHkey hkey)
-        {
-            SetHKeyFormat(registryPath, hkey);
-
-            if (!this.RegistryKeyAvailable())
-            {
-                CreateMissingSubKey(registryPath, hkey);
-            }
-
-            if (this.RegistryKeyAvailable())
-            {
-                object registryKeyValue = this.RegistryKey.GetValue(allowText);
-
-                if ((int?)registryKeyValue == null)
-                {
-                    this.SetRKValue(allowText, enableFunction, valueKind);
-                }
-                else
-                {
-                    switch(enableFunction)
-                    {
-                        case EActivationParameter.Off:
-                            this.SetRKValue(allowText, (int)EActivationParameter.Off);
-                            break;
-
-                        case EActivationParameter.On:
-                            this.SetRKValue(allowText, (int)EActivationParameter.On);
-                            break;
-
-                        case EActivationParameter.AdditionalSetting1:
-                            this.SetRKValue(allowText, (int)EActivationParameter.AdditionalSetting1);
-                            break;
-
-                        case EActivationParameter.AdditionalSetting2:
-                            this.SetRKValue(allowText, (int)EActivationParameter.AdditionalSetting2);
-                            break;
-                    }
-                }
-            }
-        }
-
-        private bool RegistryKeyAvailable()
-        {
-            return this._registryKey == null ? false : true;
         }
 
         private bool SetRKValue(string name, object value, RegistryValueKind kind = RegistryValueKind.DWord)
@@ -195,7 +200,7 @@ namespace Windows10TroubleRemover
 
                 SetHKeyFormat(concatinatedPath, hkey);
 
-                if (!this.RegistryKeyAvailable())
+                if (!RegisterKeyAvailable)
                 {
                     missingSubKeys.Add(splittedPath[tries]);
                     tries--;
@@ -206,7 +211,7 @@ namespace Windows10TroubleRemover
                 }
             }
 
-            SetHKeyFormat(lastValidPath,hkey);
+            SetHKeyFormat(lastValidPath, hkey);
 
             return (lastValidPath, missingSubKeys);
         }
@@ -252,5 +257,7 @@ namespace Windows10TroubleRemover
                 _registryKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(validPath, RegistryKeyPermissionCheck.ReadWriteSubTree);
             }
         }
+
+        #endregion
     }
 }
