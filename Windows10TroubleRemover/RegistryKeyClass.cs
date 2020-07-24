@@ -28,6 +28,7 @@ namespace Windows10TroubleRemover
             //Let user decide if the new created setting should be activated or not
             string configDefaultState = ConfigurationManager.AppSettings["DEFAULTCREATIONSTATE"].ToString(); 
             int state = configDefaultState == "1" ? 1 : 0;
+            bool skipEnabled = false;
 
             bool functionThrough = false;
 
@@ -52,25 +53,48 @@ namespace Windows10TroubleRemover
                 }
                 catch (NullReferenceException ex)
                 {
-                    DialogResult dr = MessageBox.Show("Registry-Path miss some directories and settings, would you like to create them and retry?", "Create missing directories?", MessageBoxButtons.YesNo);
-                    if (dr == DialogResult.Yes)
+                    CreateMissingItems(registryPath, allowText, state, hkey, skipEnabled, ref functionThrough);
+                }
+            }
+        }
+
+        private void CreateMissingItems(string registryPath, string allowText, int state, ERegistryHkey hkey, bool skipEnabled, ref bool functionThrough)
+        {
+            if (skipEnabled)
+            {
+                if (_registryKey != null)
+                {
+                    //RK ONLY missing
+                    this.SetRKValue(Path.Combine(registryPath, allowText), state, RegistryValueKind.DWord);
+                }
+                else
+                {
+                    //Complete path missing, so RK too
+                    CreateMissingSubKey(registryPath, hkey);
+                    this.SetRKValue(allowText, state, RegistryValueKind.DWord);
+                }
+            }
+            else
+            {
+                DialogResult dr = MessageBox.Show("Registry-Path miss some directories and settings, would you like to create them and retry?", "Create missing directories?", MessageBoxButtons.YesNo);
+                if (dr == DialogResult.Yes)
+                {
+                    skipEnabled = true;
+
+                    if (_registryKey != null)
                     {
-                        if (_registryKey != null)
-                        {
-                            //RK ONLY missing
-                            this.SetRKValue(Path.Combine(registryPath, allowText), state, RegistryValueKind.DWord);
-                        }
-                        else
-                        {
-                            //Complete path missing, so RK too
-                            CreateMissingSubKey(registryPath, hkey);
-                            this.SetRKValue(allowText, state, RegistryValueKind.DWord);
-                        }
+                        //RK ONLY missing
+                        this.SetRKValue(Path.Combine(registryPath, allowText), state, RegistryValueKind.DWord);
                     }
                     else
                     {
-                        functionThrough = true;
+                        //Complete path missing, so RK too
+                        CreateMissingSubKey(registryPath, hkey);
+                        this.SetRKValue(allowText, state, RegistryValueKind.DWord);
                     }
+                } else
+                {
+                    functionThrough = true;
                 }
             }
         }

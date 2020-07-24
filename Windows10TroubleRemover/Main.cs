@@ -146,7 +146,7 @@ namespace Windows10TroubleRemover
                 }
                 catch (System.ComponentModel.Win32Exception ex)
                 {
-                    MessageBox.Show("OneDrive could not be uninstallled, is it already uninstalled?");
+                    MessageBox.Show("OneDrive could not be uninstallled, it might be already uninstalled");
                 }
             }
         }
@@ -183,6 +183,7 @@ namespace Windows10TroubleRemover
             return null;
         }
 
+        //Dumm doof da wir 2 additional keys haben, die aber momentan noch nicht benötigt werden...
         private EActivationParameter BoolToEnum(bool b)
         {
             if (b) { return EActivationParameter.On; }

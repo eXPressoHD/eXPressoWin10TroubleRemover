@@ -30,6 +30,7 @@
         {
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.gbGeneral = new System.Windows.Forms.GroupBox();
+            this.ckbxDisableSearchBoxSuggestions = new System.Windows.Forms.CheckBox();
             this.ckbxEnableMmx = new System.Windows.Forms.CheckBox();
             this.ckbxNoAutoUpdate = new System.Windows.Forms.CheckBox();
             this.ckbxAllowTelemetry = new System.Windows.Forms.CheckBox();
@@ -38,13 +39,12 @@
             this.ckbxNoLockScreen = new System.Windows.Forms.CheckBox();
             this.ckbxDisableAntiSpyware = new System.Windows.Forms.CheckBox();
             this.gbPerformance = new System.Windows.Forms.GroupBox();
+            this.ckbxStartupDelayInMSec = new System.Windows.Forms.CheckBox();
             this.ckbxHiberbootEnabled = new System.Windows.Forms.CheckBox();
             this.gbSettings = new System.Windows.Forms.GroupBox();
+            this.btnUninstallOneDrive = new System.Windows.Forms.Button();
             this.panelControls = new System.Windows.Forms.Panel();
             this.btnApplySettings = new System.Windows.Forms.Button();
-            this.ckbxDisableSearchBoxSuggestions = new System.Windows.Forms.CheckBox();
-            this.btnUninstallOneDrive = new System.Windows.Forms.Button();
-            this.ckbxStartupDelayInMSec = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanelMain.SuspendLayout();
             this.gbGeneral.SuspendLayout();
             this.gbSecurity.SuspendLayout();
@@ -88,6 +88,18 @@
             this.gbGeneral.TabIndex = 0;
             this.gbGeneral.TabStop = false;
             this.gbGeneral.Text = "General";
+            // 
+            // ckbxDisableSearchBoxSuggestions
+            // 
+            this.ckbxDisableSearchBoxSuggestions.AutoSize = true;
+            this.ckbxDisableSearchBoxSuggestions.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.ckbxDisableSearchBoxSuggestions.Location = new System.Drawing.Point(18, 158);
+            this.ckbxDisableSearchBoxSuggestions.Name = "ckbxDisableSearchBoxSuggestions";
+            this.ckbxDisableSearchBoxSuggestions.Size = new System.Drawing.Size(191, 24);
+            this.ckbxDisableSearchBoxSuggestions.TabIndex = 4;
+            this.ckbxDisableSearchBoxSuggestions.Text = "Bing Search Disabled";
+            this.ckbxDisableSearchBoxSuggestions.UseVisualStyleBackColor = true;
+            this.ckbxDisableSearchBoxSuggestions.CheckedChanged += new System.EventHandler(this.ckbxDisableSearchBoxSuggestions_CheckedChanged);
             // 
             // ckbxEnableMmx
             // 
@@ -187,6 +199,18 @@
             this.gbPerformance.TabStop = false;
             this.gbPerformance.Text = "Performance";
             // 
+            // ckbxStartupDelayInMSec
+            // 
+            this.ckbxStartupDelayInMSec.AutoSize = true;
+            this.ckbxStartupDelayInMSec.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.ckbxStartupDelayInMSec.Location = new System.Drawing.Point(18, 68);
+            this.ckbxStartupDelayInMSec.Name = "ckbxStartupDelayInMSec";
+            this.ckbxStartupDelayInMSec.Size = new System.Drawing.Size(195, 24);
+            this.ckbxStartupDelayInMSec.TabIndex = 3;
+            this.ckbxStartupDelayInMSec.Text = "Startup Delay Enabled";
+            this.ckbxStartupDelayInMSec.UseVisualStyleBackColor = true;
+            this.ckbxStartupDelayInMSec.CheckedChanged += new System.EventHandler(this.ckbxStartupDelayInMSec_CheckedChanged);
+            // 
             // ckbxHiberbootEnabled
             // 
             this.ckbxHiberbootEnabled.AutoSize = true;
@@ -211,6 +235,16 @@
             this.gbSettings.TabStop = false;
             this.gbSettings.Text = "Settings";
             // 
+            // btnUninstallOneDrive
+            // 
+            this.btnUninstallOneDrive.Location = new System.Drawing.Point(15, 38);
+            this.btnUninstallOneDrive.Name = "btnUninstallOneDrive";
+            this.btnUninstallOneDrive.Size = new System.Drawing.Size(160, 30);
+            this.btnUninstallOneDrive.TabIndex = 0;
+            this.btnUninstallOneDrive.Text = "Uninstall OneDrive";
+            this.btnUninstallOneDrive.UseVisualStyleBackColor = true;
+            this.btnUninstallOneDrive.Click += new System.EventHandler(this.btnUninstallOneDrive_Click);
+            // 
             // panelControls
             // 
             this.panelControls.Controls.Add(this.btnApplySettings);
@@ -231,40 +265,6 @@
             this.btnApplySettings.UseVisualStyleBackColor = true;
             this.btnApplySettings.Click += new System.EventHandler(this.btnApplySettings_Click);
             // 
-            // ckbxDisableSearchBoxSuggestions
-            // 
-            this.ckbxDisableSearchBoxSuggestions.AutoSize = true;
-            this.ckbxDisableSearchBoxSuggestions.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.ckbxDisableSearchBoxSuggestions.Location = new System.Drawing.Point(18, 158);
-            this.ckbxDisableSearchBoxSuggestions.Name = "ckbxDisableSearchBoxSuggestions";
-            this.ckbxDisableSearchBoxSuggestions.Size = new System.Drawing.Size(191, 24);
-            this.ckbxDisableSearchBoxSuggestions.TabIndex = 4;
-            this.ckbxDisableSearchBoxSuggestions.Text = "Bing Search Disabled";
-            this.ckbxDisableSearchBoxSuggestions.UseVisualStyleBackColor = true;
-            this.ckbxDisableSearchBoxSuggestions.CheckedChanged += new System.EventHandler(this.ckbxDisableSearchBoxSuggestions_CheckedChanged);
-            // 
-            // btnUninstallOneDrive
-            // 
-            this.btnUninstallOneDrive.Location = new System.Drawing.Point(15, 38);
-            this.btnUninstallOneDrive.Name = "btnUninstallOneDrive";
-            this.btnUninstallOneDrive.Size = new System.Drawing.Size(160, 30);
-            this.btnUninstallOneDrive.TabIndex = 0;
-            this.btnUninstallOneDrive.Text = "Uninstall OneDrive";
-            this.btnUninstallOneDrive.UseVisualStyleBackColor = true;
-            this.btnUninstallOneDrive.Click += new System.EventHandler(this.btnUninstallOneDrive_Click);
-            // 
-            // ckbxStartupDelayInMSec
-            // 
-            this.ckbxStartupDelayInMSec.AutoSize = true;
-            this.ckbxStartupDelayInMSec.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.ckbxStartupDelayInMSec.Location = new System.Drawing.Point(18, 68);
-            this.ckbxStartupDelayInMSec.Name = "ckbxStartupDelayInMSec";
-            this.ckbxStartupDelayInMSec.Size = new System.Drawing.Size(195, 24);
-            this.ckbxStartupDelayInMSec.TabIndex = 3;
-            this.ckbxStartupDelayInMSec.Text = "Startup Delay Enabled";
-            this.ckbxStartupDelayInMSec.UseVisualStyleBackColor = true;
-            this.ckbxStartupDelayInMSec.CheckedChanged += new System.EventHandler(this.ckbxStartupDelayInMSec_CheckedChanged);
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -274,7 +274,7 @@
             this.Controls.Add(this.panelControls);
             this.Controls.Add(this.tableLayoutPanelMain);
             this.MaximumSize = new System.Drawing.Size(1070, 687);
-            this.MinimumSize = new System.Drawing.Size(486, 363);
+            this.MinimumSize = new System.Drawing.Size(720, 531);
             this.Name = "FrmMain";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
