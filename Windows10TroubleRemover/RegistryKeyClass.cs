@@ -126,7 +126,7 @@ namespace Windows10TroubleRemover
             }
             else
             {
-                DialogResult dr = MessageBox.Show("Registry-Path miss some directories and settings, would you like to create them and retry?", "Create missing directories?", MessageBoxButtons.YesNo);
+                DialogResult dr = MessageBox.Show("Registry miss some directories and settings, would you like to create them now and continue?", "Create missing directories?", MessageBoxButtons.YesNo);
                 if (dr == DialogResult.Yes)
                 {
                     skipEnabled = true;
